@@ -1,0 +1,84 @@
+WARNING: You're attempting to print out a bitcode file.
+This is inadvisable as it may cause display problems. If
+you REALLY want to taste LLVM bitcode first-hand, you
+can force output with the `-f' option.
+
+func
+[ entry ]
+	>>>> a = 10
+		e_IN : [EMPTY]
+		e_OUT : [EMPTY]
+		e_GEN : [EMPTY]
+		e_KILL : [EMPTY]
+	>>>> b = 100
+		e_IN : [EMPTY]
+		e_OUT : [EMPTY]
+		e_GEN : [EMPTY]
+		e_KILL : [EMPTY]
+	>>>> c = a + b, 
+		e_IN : [EMPTY]
+		e_OUT : a + b, 
+		e_GEN : a + b, 
+		e_KILL : [EMPTY]
+	>>>> d = a - 2, 
+		e_IN : a + b, 
+		e_OUT : a - 2, a + b, 
+		e_GEN : a - 2, 
+		e_KILL : [EMPTY]
+	>>>> b = a + b, 
+		e_IN : a - 2, a + b, 
+		e_OUT : a - 2, 
+		e_GEN : [EMPTY]
+		e_KILL : a + b, 
+[ if.then ]
+	>>>> e = b + a, 
+		e_IN : a - 2, 
+		e_OUT : a + b, a - 2, 
+		e_GEN : a + b, 
+		e_KILL : [EMPTY]
+	>>>> f = a + 2, 
+		e_IN : a + b, a - 2, 
+		e_OUT : a + 2, a + b, a - 2, 
+		e_GEN : a + 2, 
+		e_KILL : [EMPTY]
+[ if.else ]
+	>>>> g = a + 2, 
+		e_IN : a - 2, 
+		e_OUT : a + 2, a - 2, 
+		e_GEN : a + 2, 
+		e_KILL : [EMPTY]
+	>>>> h = a * 2, 
+		e_IN : a + 2, a - 2, 
+		e_OUT : a * 2, a + 2, a - 2, 
+		e_GEN : a * 2, 
+		e_KILL : [EMPTY]
+	>>>> i = b / 3, 
+		e_IN : a * 2, a + 2, a - 2, 
+		e_OUT : b / 3, a * 2, a + 2, a - 2, 
+		e_GEN : b / 3, 
+		e_KILL : [EMPTY]
+[ if.end ]
+	>>>> i = 0
+		e_IN : a + 2, a - 2, 
+		e_OUT : a + 2, a - 2, 
+		e_GEN : [EMPTY]
+		e_KILL : [EMPTY]
+[ for.cond ]
+[ for.body ]
+	>>>> h = a + b, 
+		e_IN : a + 2, a - 2, 
+		e_OUT : a + b, a + 2, a - 2, 
+		e_GEN : a + b, 
+		e_KILL : [EMPTY]
+	>>>> g = a + b, 
+		e_IN : a + b, a + 2, a - 2, 
+		e_OUT : a + b, a + 2, a - 2, 
+		e_GEN : a + b, 
+		e_KILL : [EMPTY]
+[ for.inc ]
+	>>>> i = i + 1, 
+		e_IN : a + b, a + 2, a - 2, 
+		e_OUT : a + b, a + 2, a - 2, 
+		e_GEN : [EMPTY]
+		e_KILL : [EMPTY]
+[ for.end ]
